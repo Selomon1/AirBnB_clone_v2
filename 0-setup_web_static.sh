@@ -31,7 +31,26 @@ chown -R ubuntu:ubuntu /data/
 
 # Update Nginx configration
 nginx_config="/etc/nginx/sites-available/default"
-sudo sed -i '/server_name _;/a \\n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n' "$nginx_config"
+new_config="server {
+	listen 80;
+	add_header X-Served-By '$HOSTNAME';
+	
+	location /hbnb_static/ {
+		alias /data/web_static/current/;
+	}
+
+	location /redirect_me {
+		return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+	}
+
+	error_page 404 /404_page_error.html;
+	
+	location /404 {
+		root /etc/nginx/html;
+		internal;
+	}
+}"
+echo "$new_config" > "$nginx_config"
 
 # Restart nginx
-sudo service nginx restart
+service nginx restart
