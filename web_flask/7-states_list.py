@@ -9,14 +9,15 @@ from models import *
 app = Flask(__name__)
 
 
-@app.route('/state_list', strict_slashes=False)
+@app.route('/states_list', strict_slashes=False)
 def states_list():
     """
     Route that display a list of all state objects sorted by name.
     """
-    states = sorted(list(storage.all("State").values()), key=lambda s: s.name)
+    states = storage.all(State).values()
+    sorted_states = sorted(states, key=lambda state: state.name)
 
-    return render_template('7-states_list.html', states=states)
+    return render_template('7-states_list.html', states=sorted_states)
 
 
 @app.teardown_appcontext
@@ -28,4 +29,4 @@ def teardown(exception):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000')
+    app.run(host='0.0.0.0', port=5000)
