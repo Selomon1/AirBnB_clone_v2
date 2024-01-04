@@ -3,7 +3,7 @@
 Script to start a Flask web application that displays a list of States
 """
 from flask import Flask, render_template
-from models import storage 
+from models import storage
 from models import *
 
 app = Flask(__name__)
