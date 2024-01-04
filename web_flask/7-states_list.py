@@ -14,7 +14,7 @@ def states_list():
     """
     Route that display a list of all state objects sorted by name.
     """
-    states = storage.all(State).values()
+    states = storage.all("State").values()
     sorted_states = sorted(states, key=lambda state: state.name)
 
     return render_template('7-states_list.html', states=sorted_states)
