@@ -2,9 +2,9 @@
 """
 Script to start a Flask web application that displays a list of States
 """
-from models import storage
-from models.state import State
 from flask import Flask, render_template
+from models import storage
+from models import *
 
 app = Flask(__name__)
 
@@ -14,14 +14,14 @@ def states_list():
     """
     Route that display a list of all state objects sorted by name.
     """
-    states = storage.all("State").values()
+    states = storage.all(State).values()
     sorted_states = sorted(states, key=lambda state: state.name)
 
     return render_template('7-states_list.html', states=sorted_states)
 
 
 @app.teardown_appcontext
-def teardown(exc):
+def teardown(exception):
     """
     Teardown method to remove the current SQLAlchemy Session.
     """
